@@ -9,7 +9,8 @@ const {
     shortenUrl,
     redirectUrl,
     getMyUrls,
-    getUrlStats
+    getUrlStats,
+    deleteUrl
 } = require("../controllers/urlController");
 
 router.post(
@@ -28,6 +29,12 @@ router.get(
     "/stats/:shortCode",
     authenticateUser,
     getUrlStats
+);
+
+router.delete(
+    "/:shortCode",
+    authenticateUser,
+    deleteUrl
 );
 
 router.get(

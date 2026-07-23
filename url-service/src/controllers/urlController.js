@@ -5,8 +5,10 @@ const redisClient = require("../config/redis");
 const {
     createShortUrl,
     findUrlByShortCode,
+    findUrlByUserAndOriginalUrl,
     incrementClickCount,
-    getUrlsByUserId
+    getUrlsByUserId,
+    deleteUrlByUserAndShortCode
 } = require("../models/urlModel");
 
 const generateShortCode = () => {
@@ -42,11 +44,24 @@ const shortenUrl = async (req, res) => {
 
         const urlId = uuidv4();
 
-        const shortCode =
-            generateShortCode();
-
         const userId =
             req.user.id;
+
+        const existingUrl =
+            await findUrlByUserAndOriginalUrl(
+                userId,
+                originalUrl
+            );
+
+        if (existingUrl) {
+            return res.status(200).json({
+                message: "Short URL already exists",
+                url: existingUrl
+            });
+        }
+
+        const shortCode =
+            generateShortCode();
 
         const url =
             await createShortUrl(
@@ -201,9 +216,49 @@ const getUrlStats = async (req, res) => {
     }
 };
 
+const deleteUrl = async (req, res) => {
+
+    const { shortCode } = req.params;
+
+    try {
+
+        const userId =
+            req.user.id;
+
+        const deletedUrl =
+            await deleteUrlByUserAndShortCode(
+                userId,
+                shortCode
+            );
+
+        if (!deletedUrl) {
+            return res.status(404).json({
+                message: "Short URL not found"
+            });
+        }
+
+        await redisClient.del(shortCode);
+
+        return res.status(200).json({
+            message: "Short URL deleted successfully",
+            url: deletedUrl
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Failed to delete short URL"
+        });
+
+    }
+};
+
 module.exports = {
     shortenUrl,
     redirectUrl,
     getMyUrls,
-    getUrlStats
+    getUrlStats,
+    deleteUrl
 };

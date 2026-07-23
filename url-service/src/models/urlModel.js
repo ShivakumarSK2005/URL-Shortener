@@ -57,6 +57,31 @@ const findUrlByShortCode = async (shortCode) => {
     return result.rows[0];
 };
 
+const findUrlByUserAndOriginalUrl = async (
+    userId,
+    originalUrl
+) => {
+
+    const query = `
+        SELECT *
+        FROM urls
+        WHERE user_id = $1
+        AND original_url = $2
+        ORDER BY created_at ASC
+        LIMIT 1
+    `;
+
+    const result = await pool.query(
+        query,
+        [
+            userId,
+            originalUrl
+        ]
+    );
+
+    return result.rows[0];
+};
+
 const incrementClickCount = async (shortCode) => {
 
     const query = `
@@ -93,10 +118,35 @@ const getUrlsByUserId = async (userId) => {
     return result.rows;
 };
 
+const deleteUrlByUserAndShortCode = async (
+    userId,
+    shortCode
+) => {
+
+    const query = `
+        DELETE FROM urls
+        WHERE user_id = $1
+        AND short_code = $2
+        RETURNING *
+    `;
+
+    const result = await pool.query(
+        query,
+        [
+            userId,
+            shortCode
+        ]
+    );
+
+    return result.rows[0];
+};
+
 
 module.exports = {
     createShortUrl,
     findUrlByShortCode,
+    findUrlByUserAndOriginalUrl,
     incrementClickCount,
-    getUrlsByUserId 
+    getUrlsByUserId,
+    deleteUrlByUserAndShortCode
 };

@@ -1,0 +1,317 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #172033;
+  background: #eef2f7;
+}
+
+a {
+  color: #2457c5;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 18px;
+  font: inherit;
+  font-weight: 700;
+  color: #ffffff;
+  background: #2457c5;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1b449b;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #c8d1df;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font: inherit;
+  background: #ffffff;
+}
+
+input:focus {
+  outline: 2px solid #9ab7ff;
+  border-color: #2457c5;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 7vw;
+  background: #ffffff;
+  border-bottom: 1px solid #d9e0ea;
+}
+
+.brand {
+  color: #172033;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #39465e;
+  font-weight: 700;
+}
+
+.nav-links a.active {
+  color: #2457c5;
+}
+
+.link-button {
+  padding: 0;
+  color: #39465e;
+  background: transparent;
+}
+
+.link-button:hover {
+  color: #2457c5;
+  background: transparent;
+}
+
+.app-container {
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  padding: 34px 0;
+}
+
+.auth-page {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card,
+.panel {
+  border: 1px solid #d9e0ea;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(21, 31, 48, 0.08);
+}
+
+.auth-card {
+  width: min(440px, 100%);
+  padding: 30px;
+}
+
+.auth-card h1,
+.page-header h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.muted {
+  margin: 0 0 24px;
+  color: #68758a;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.form label,
+.url-form label {
+  font-weight: 700;
+}
+
+.form-footer {
+  margin: 20px 0 0;
+  text-align: center;
+}
+
+.page-header {
+  margin-bottom: 18px;
+}
+
+.panel {
+  padding: 24px;
+}
+
+.url-form {
+  display: grid;
+  gap: 10px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.result-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 14px;
+  border: 1px solid #bfd0f4;
+  border-radius: 8px;
+  background: #f4f7ff;
+}
+
+.result-box span {
+  overflow-wrap: anywhere;
+  font-weight: 700;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 11px 12px;
+  border-radius: 6px;
+}
+
+.message.error {
+  color: #8c1f1f;
+  background: #ffe9e9;
+}
+
+.message.success {
+  color: #14582f;
+  background: #e4f8ed;
+}
+
+.message.info {
+  color: #214476;
+  background: #e8f0ff;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #e3e8f0;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: #39465e;
+  background: #f6f8fb;
+}
+
+td:first-child {
+  max-width: 440px;
+  overflow-wrap: anywhere;
+}
+
+.small-button,
+.back-link,
+.danger-button {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 9px 12px;
+  color: #ffffff;
+  font-weight: 700;
+  background: #2457c5;
+}
+
+.small-button:hover,
+.back-link:hover {
+  color: #ffffff;
+  background: #1b449b;
+  text-decoration: none;
+}
+
+.danger-button {
+  background: #c52b2b;
+}
+
+.danger-button:hover {
+  background: #9f2020;
+}
+
+.empty-state {
+  margin: 0;
+  color: #68758a;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stats-grid div {
+  border: 1px solid #e3e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #f8fafc;
+}
+
+.stats-grid span {
+  display: block;
+  margin-bottom: 8px;
+  color: #68758a;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.stats-grid strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+}
+
+@media (max-width: 720px) {
+  .navbar,
+  .nav-links,
+  .input-row,
+  .result-box {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .navbar {
+    padding: 16px 5vw;
+  }
+
+  .nav-links {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

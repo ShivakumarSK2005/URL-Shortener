@@ -4,6 +4,14 @@ const jwt = require("jsonwebtoken");
 
 const { createUser, findUserByEmail } = require("../models/userModel");
 
+const getDatabaseErrorMessage = (error) => {
+    if (error.code === "42P01") {
+        return "Database table is missing. Create the users table in PostgreSQL.";
+    }
+
+    return "Registration failed";
+};
+
 const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -47,7 +55,8 @@ const registerUser = async (req, res) => {
         console.error(error);
 
         return res.status(500).json({
-            message: "Registration failed"
+            message: getDatabaseErrorMessage(error),
+            code: error.code
         });
     }
 };
