@@ -8,7 +8,9 @@ function Register() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
-    password: ""
+    phoneNumber: "",
+    password: "",
+    confirmPassword: ""
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -27,8 +29,19 @@ function Register() {
     setError("");
     setLoading(true);
 
+    if (formData.password !== formData.confirmPassword) {
+      setError("Password and confirm password do not match.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      await registerUser(formData);
+      await registerUser({
+        username: formData.username,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password
+      });
       setMessage("Registration successful. Redirecting to login...");
       setTimeout(() => navigate("/login"), 900);
     } catch (err) {
@@ -77,12 +90,33 @@ function Register() {
             required
           />
 
+          <label htmlFor="phoneNumber">Phone Number</label>
+          <input
+            id="phoneNumber"
+            name="phoneNumber"
+            type="tel"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="Optional"
+          />
+
           <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             type="password"
             value={formData.password}
+            onChange={handleChange}
+            required
+            minLength="6"
+          />
+
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
             onChange={handleChange}
             required
             minLength="6"

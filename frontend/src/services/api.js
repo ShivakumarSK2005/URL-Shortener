@@ -36,6 +36,18 @@ export const loginUser = (credentials) => {
   return api.post("/api/auth/login", credentials);
 };
 
+export const getProfile = () => {
+  return api.get("/api/auth/profile");
+};
+
+export const updateProfile = (profileData) => {
+  return api.put("/api/auth/profile", profileData);
+};
+
+export const changePassword = (passwordData) => {
+  return api.put("/api/auth/profile/password", passwordData);
+};
+
 export const shortenUrl = (originalUrl) => {
   return api.post("/api/urls/shorten", { originalUrl });
 };

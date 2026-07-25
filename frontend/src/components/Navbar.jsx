@@ -13,6 +13,7 @@ function Navbar() {
   return (
     <header className="navbar">
       <Link to="/dashboard" className="brand">
+        <img src="/link-logo.webp" alt="" />
         URL Shortener
       </Link>
 
@@ -21,6 +22,7 @@ function Navbar() {
           <>
             <NavLink to="/dashboard">Dashboard</NavLink>
             <NavLink to="/my-urls">My URLs</NavLink>
+            <NavLink to="/profile">Profile</NavLink>
             <button type="button" className="link-button" onClick={handleLogout}>
               Logout
             </button>
