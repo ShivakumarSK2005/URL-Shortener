@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Message from "../components/Message.jsx";
+import { EyeIcon, EyeOffIcon } from "../components/EyeIcons.jsx";
 import { loginUser } from "../services/api.js";
 import { saveToken } from "../services/authService.js";
 
@@ -13,6 +14,7 @@ function Login() {
     email: "",
     password: ""
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -57,14 +59,25 @@ function Login() {
           />
 
           <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div className="password-wrapper">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
 
           <Message type="error">{error}</Message>
 

@@ -19,7 +19,8 @@ function Dashboard() {
     try {
       const response = await shortenUrl(originalUrl);
       const shortCode = response.data.url.short_code;
-      setShortUrl(`${API_BASE_URL}/api/urls/${shortCode}`);
+      const fullShortUrl = `${window.location.origin}/api/urls/${shortCode}`;
+      setShortUrl(fullShortUrl);
       setOriginalUrl("");
     } catch (err) {
       if (!err.response) {

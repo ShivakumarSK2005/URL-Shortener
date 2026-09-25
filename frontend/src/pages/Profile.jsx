@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Message from "../components/Message.jsx";
+import { EyeIcon, EyeOffIcon } from "../components/EyeIcons.jsx";
 import { changePassword, getProfile, updateProfile } from "../services/api.js";
 
 function Profile() {
@@ -19,6 +20,9 @@ function Profile() {
   const [changingPassword, setChangingPassword] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -229,36 +233,69 @@ function Profile() {
           {showPasswordForm && (
             <form onSubmit={handlePasswordSubmit} className="form">
               <label htmlFor="currentPassword">Current Password</label>
-              <input
-                id="currentPassword"
-                name="currentPassword"
-                type="password"
-                value={passwordData.currentPassword}
-                onChange={handlePasswordChange}
-                required
-              />
+              <div className="password-wrapper">
+                <input
+                  id="currentPassword"
+                  name="currentPassword"
+                  type={showCurrentPassword ? "text" : "password"}
+                  value={passwordData.currentPassword}
+                  onChange={handlePasswordChange}
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowCurrentPassword((prev) => !prev)}
+                  aria-label={showCurrentPassword ? "Hide password" : "Show password"}
+                  title={showCurrentPassword ? "Hide password" : "Show password"}
+                >
+                  {showCurrentPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
 
               <label htmlFor="newPassword">New Password</label>
-              <input
-                id="newPassword"
-                name="newPassword"
-                type="password"
-                value={passwordData.newPassword}
-                onChange={handlePasswordChange}
-                required
-                minLength="6"
-              />
+              <div className="password-wrapper">
+                <input
+                  id="newPassword"
+                  name="newPassword"
+                  type={showNewPassword ? "text" : "password"}
+                  value={passwordData.newPassword}
+                  onChange={handlePasswordChange}
+                  required
+                  minLength="6"
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowNewPassword((prev) => !prev)}
+                  aria-label={showNewPassword ? "Hide password" : "Show password"}
+                  title={showNewPassword ? "Hide password" : "Show password"}
+                >
+                  {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
 
               <label htmlFor="confirmPassword">Confirm New Password</label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                value={passwordData.confirmPassword}
-                onChange={handlePasswordChange}
-                required
-                minLength="6"
-              />
+              <div className="password-wrapper">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={passwordData.confirmPassword}
+                  onChange={handlePasswordChange}
+                  required
+                  minLength="6"
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                  title={showConfirmPassword ? "Hide password" : "Show password"}
+                >
+                  {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
 
               <div className="button-row">
                 <button type="submit" disabled={changingPassword}>

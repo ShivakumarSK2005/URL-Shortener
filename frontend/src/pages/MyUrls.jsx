@@ -9,6 +9,20 @@ function MyUrls() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [deletingCode, setDeletingCode] = useState("");
+  const [copiedCode, setCopiedCode] = useState("");
+
+  const handleCopy = async (shortCode) => {
+    const fullShortUrl = `${window.location.origin}/api/urls/${shortCode}`;
+    try {
+      await navigator.clipboard.writeText(fullShortUrl);
+      setCopiedCode(shortCode);
+      setTimeout(() => {
+        setCopiedCode("");
+      }, 2000);
+    } catch (err) {
+      console.error("Failed to copy URL:", err);
+    }
+  };
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -74,6 +88,7 @@ function MyUrls() {
                 <tr>
                   <th>Original URL</th>
                   <th>Short Code</th>
+                  <th>Copy URL</th>
                   <th>Click Count</th>
                   <th>Analytics</th>
                   <th>Action</th>
@@ -88,23 +103,32 @@ function MyUrls() {
                       </a>
                     </td>
                     <td>{url.short_code}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className={`copy-button ${copiedCode === url.short_code ? "copied" : ""}`}
+                        onClick={() => handleCopy(url.short_code)}
+                      >
+                        {copiedCode === url.short_code ? "Copied!" : "Copy"}
+                      </button>
+                    </td>
                     <td>{url.click_count}</td>
                     <td>
                       <Link className="small-button" to={`/analytics/${url.short_code}`}>
                         View
                       </Link>
                     </td>
-                    <td>
-                      <button
-                        type="button"
-                        className="danger-button"
-                        onClick={() => handleDelete(url.short_code)}
-                        disabled={deletingCode === url.short_code}
-                      >
-                        {deletingCode === url.short_code ? "Deleting..." : "Delete"}
-                      </button>
-                    </td>
-                  </tr>
+                      <td>
+                        <button
+                          type="button"
+                          className="danger-button"
+                          onClick={() => handleDelete(url.short_code)}
+                          disabled={deletingCode === url.short_code}
+                        >
+                          {deletingCode === url.short_code ? "Deleting..." : "Delete"}
+                        </button>
+                      </td>
+                    </tr>
                 ))}
               </tbody>
             </table>

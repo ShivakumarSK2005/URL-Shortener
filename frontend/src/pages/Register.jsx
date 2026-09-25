@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message.jsx";
+import { EyeIcon, EyeOffIcon } from "../components/EyeIcons.jsx";
 import { registerUser } from "../services/api.js";
 
 function Register() {
@@ -12,6 +13,8 @@ function Register() {
     password: "",
     confirmPassword: ""
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -101,26 +104,48 @@ function Register() {
           />
 
           <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            minLength="6"
-          />
+          <div className="password-wrapper">
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formData.password}
+              onChange={handleChange}
+              required
+              minLength="6"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              title={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
 
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-            minLength="6"
-          />
+          <div className="password-wrapper">
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+              minLength="6"
+            />
+            <button
+              type="button"
+              className="password-toggle-btn"
+              onClick={() => setShowConfirmPassword((prev) => !prev)}
+              aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              title={showConfirmPassword ? "Hide password" : "Show password"}
+            >
+              {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
 
           <Message type="success">{message}</Message>
           <Message type="error">{error}</Message>
