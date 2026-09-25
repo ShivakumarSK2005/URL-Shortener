@@ -2,6 +2,8 @@
 
 A high-performance, containerized microservices URL shortener platform with user authentication, custom URL aliasing, analytics tracking, and Redis caching. Built with Node.js, Express, PostgreSQL, Redis, Docker, and React (Vite).
 
+🔗 **Live Production Demo:** [https://url-shortener-six-eosin.vercel.app](https://url-shortener-six-eosin.vercel.app)
+
 ---
 
 ## 🚀 Features
