@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Message from "../components/Message.jsx";
-import { API_BASE_URL, shortenUrl } from "../services/api.js";
+import { API_BASE_URL, URL_SERVICE_URL, shortenUrl } from "../services/api.js";
 
 function Dashboard() {
   const [originalUrl, setOriginalUrl] = useState("");
@@ -19,7 +19,8 @@ function Dashboard() {
     try {
       const response = await shortenUrl(originalUrl);
       const shortCode = response.data.url.short_code;
-      const fullShortUrl = `${window.location.origin}/api/urls/${shortCode}`;
+      const base = URL_SERVICE_URL || window.location.origin;
+      const fullShortUrl = `${base}/api/urls/${shortCode}`;
       setShortUrl(fullShortUrl);
       setOriginalUrl("");
     } catch (err) {

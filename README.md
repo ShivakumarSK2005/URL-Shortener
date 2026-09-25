@@ -196,7 +196,15 @@ This repository is optimized for zero-cost cloud deployment:
 - **Database**: [Neon.tech](https://neon.tech) Serverless PostgreSQL (supports `DATABASE_URL` with SSL).
 - **Cache**: [Upstash](https://upstash.com) Serverless Redis (supports `rediss://` TLS URLs).
 - **Backend Services**: [Render](https://render.com) Web Services (`auth-service`, `url-service`).
-- **Frontend**: [Render](https://render.com) or [Vercel](https://vercel.com) Static Site.
+- **Frontend**: [Vercel](https://vercel.com) (Recommended) or Render Static Site.
+
+### Deploying Frontend to Vercel
+1. Import repository on [Vercel](https://vercel.com).
+2. Set **Root Directory** to `frontend`.
+3. Add Environment Variables:
+   - `VITE_AUTH_API_URL` = `https://<your-auth-service>.onrender.com`
+   - `VITE_URL_SERVICE_URL` = `https://<your-url-service>.onrender.com`
+4. Click **Deploy**. Instant global edge deployment with zero configuration.
 
 ### Database Table Schemas
 

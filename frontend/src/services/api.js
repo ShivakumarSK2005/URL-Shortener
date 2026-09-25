@@ -1,67 +1,82 @@
 import axios from "axios";
 import { getToken, removeToken } from "./authService.js";
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+export const AUTH_API_URL =
+  import.meta.env.VITE_AUTH_API_URL || import.meta.env.VITE_API_BASE_URL || "";
 
-const api = axios.create({
-  baseURL: API_BASE_URL
+export const URL_SERVICE_URL =
+  import.meta.env.VITE_URL_SERVICE_URL || import.meta.env.VITE_API_BASE_URL || "";
+
+export const API_BASE_URL = URL_SERVICE_URL;
+
+const authApi = axios.create({
+  baseURL: AUTH_API_URL
 });
 
-api.interceptors.request.use((config) => {
-  const token = getToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
+const urlApi = axios.create({
+  baseURL: URL_SERVICE_URL
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      removeToken();
+const setupInterceptors = (client) => {
+  client.interceptors.request.use((config) => {
+    const token = getToken();
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
-    return Promise.reject(error);
-  }
-);
+    return config;
+  });
+
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        removeToken();
+      }
+
+      return Promise.reject(error);
+    }
+  );
+};
+
+setupInterceptors(authApi);
+setupInterceptors(urlApi);
 
 export const registerUser = (userData) => {
-  return api.post("/api/auth/register", userData);
+  return authApi.post("/api/auth/register", userData);
 };
 
 export const loginUser = (credentials) => {
-  return api.post("/api/auth/login", credentials);
+  return authApi.post("/api/auth/login", credentials);
 };
 
 export const getProfile = () => {
-  return api.get("/api/auth/profile");
+  return authApi.get("/api/auth/profile");
 };
 
 export const updateProfile = (profileData) => {
-  return api.put("/api/auth/profile", profileData);
+  return authApi.put("/api/auth/profile", profileData);
 };
 
 export const changePassword = (passwordData) => {
-  return api.put("/api/auth/profile/password", passwordData);
+  return authApi.put("/api/auth/profile/password", passwordData);
 };
 
 export const shortenUrl = (originalUrl) => {
-  return api.post("/api/urls/shorten", { originalUrl });
+  return urlApi.post("/api/urls/shorten", { originalUrl });
 };
 
 export const getMyUrls = () => {
-  return api.get("/api/urls/my-urls");
+  return urlApi.get("/api/urls/my-urls");
 };
 
 export const getUrlStats = (shortCode) => {
-  return api.get(`/api/urls/stats/${shortCode}`);
+  return urlApi.get(`/api/urls/stats/${shortCode}`);
 };
 
 export const deleteShortUrl = (shortCode) => {
-  return api.delete(`/api/urls/${shortCode}`);
+  return urlApi.delete(`/api/urls/${shortCode}`);
 };
 
-export default api;
+export default urlApi;

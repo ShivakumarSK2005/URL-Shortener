@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Message from "../components/Message.jsx";
-import { deleteShortUrl, getMyUrls } from "../services/api.js";
+import { URL_SERVICE_URL, deleteShortUrl, getMyUrls } from "../services/api.js";
 
 function MyUrls() {
   const [urls, setUrls] = useState([]);
@@ -12,7 +12,8 @@ function MyUrls() {
   const [copiedCode, setCopiedCode] = useState("");
 
   const handleCopy = async (shortCode) => {
-    const fullShortUrl = `${window.location.origin}/api/urls/${shortCode}`;
+    const base = URL_SERVICE_URL || window.location.origin;
+    const fullShortUrl = `${base}/api/urls/${shortCode}`;
     try {
       await navigator.clipboard.writeText(fullShortUrl);
       setCopiedCode(shortCode);
