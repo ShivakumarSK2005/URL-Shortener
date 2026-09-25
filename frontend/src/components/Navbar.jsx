@@ -15,9 +15,7 @@ function Navbar() {
     <header className="navbar">
       <div className="navbar-inner">
         <Link to="/dashboard" className="brand">
-          <div className="brand-logo-icon">
-            <LinkIcon size={18} />
-          </div>
+          <img src="/logo.svg" alt="ShortLink Pro" className="brand-logo-img" />
           <span className="brand-title">
             ShortLink<span className="brand-badge">PRO</span>
           </span>

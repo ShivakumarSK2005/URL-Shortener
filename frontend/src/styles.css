@@ -112,16 +112,25 @@ a:hover {
   letter-spacing: -0.02em;
 }
 
-.brand-logo-icon {
+.brand-logo-icon,
+.brand-logo-img {
   width: 34px;
   height: 34px;
   border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.brand-logo-icon {
   background: var(--gradient-primary);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.brand-logo-img {
+  display: block;
+  object-fit: cover;
 }
 
 .brand-title {
