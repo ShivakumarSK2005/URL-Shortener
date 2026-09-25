@@ -1,11 +1,15 @@
 import axios from "axios";
 import { getToken, removeToken } from "./authService.js";
 
-export const AUTH_API_URL =
-  import.meta.env.VITE_AUTH_API_URL || import.meta.env.VITE_API_BASE_URL || "";
+const sanitizeUrl = (url) => (url ? url.trim().replace(/\/+$/, "") : "");
 
-export const URL_SERVICE_URL =
-  import.meta.env.VITE_URL_SERVICE_URL || import.meta.env.VITE_API_BASE_URL || "";
+export const AUTH_API_URL = sanitizeUrl(
+  import.meta.env.VITE_AUTH_API_URL || import.meta.env.VITE_API_BASE_URL || ""
+);
+
+export const URL_SERVICE_URL = sanitizeUrl(
+  import.meta.env.VITE_URL_SERVICE_URL || import.meta.env.VITE_API_BASE_URL || ""
+);
 
 export const API_BASE_URL = URL_SERVICE_URL;
 

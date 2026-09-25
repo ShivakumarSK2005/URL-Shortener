@@ -12,8 +12,14 @@ const urlRoutes = require("./routes/urlRoutes");
 const app = express();
 
 app.use(cors());
+app.use((req, res, next) => {
+    if (req.url.startsWith("//")) {
+        req.url = req.url.replace(/^\/+/, "/");
+    }
+    next();
+});
 app.use(express.json());
-app.use( "/api/urls", urlRoutes);
+app.use("/api/urls", urlRoutes);
 
 app.get("/", (req, res) => {
     res.send("URL Service Running");
