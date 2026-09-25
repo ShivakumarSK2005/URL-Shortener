@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Message from "../components/Message.jsx";
 import { EyeIcon, EyeOffIcon } from "../components/EyeIcons.jsx";
-import { registerUser } from "../services/api.js";
+import { loginUser, registerUser } from "../services/api.js";
+import { saveToken } from "../services/authService.js";
 
 function Register() {
   const navigate = useNavigate();
@@ -39,12 +40,30 @@ function Register() {
     }
 
     try {
-      await registerUser({
+      const response = await registerUser({
         username: formData.username,
         email: formData.email,
         phoneNumber: formData.phoneNumber,
         password: formData.password
       });
+
+      let token = response.data?.token;
+
+      // Fallback: If backend hasn't returned a token, log in directly
+      if (!token) {
+        const loginRes = await loginUser({
+          email: formData.email,
+          password: formData.password
+        });
+        token = loginRes.data?.token;
+      }
+
+      if (token) {
+        saveToken(token);
+        navigate("/dashboard", { replace: true });
+        return;
+      }
+
       setMessage("Registration successful. Redirecting to login...");
       setTimeout(() => navigate("/login"), 900);
     } catch (err) {

@@ -49,8 +49,20 @@ const registerUser = async (req, res) => {
             phoneNumber || null
         );
 
+        const token = jwt.sign(
+            {
+                id: user.id,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        );
+
         return res.status(201).json({
             message: "User registered successfully",
+            token,
             user: {
                 id: user.id,
                 username: user.username,
